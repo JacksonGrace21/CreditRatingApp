@@ -1,0 +1,343 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{background:#0a0a0a;color:#f0ede8;min-height:100vh;padding:0}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:0.5px solid rgba(255,255,255,.08)}
+.logo{font-size:18px;font-weight:500;letter-spacing:.04em;color:#f0ede8}
+.logo span{color:#9FE1CB}
+.nav-links{display:flex;gap:20px}
+.nav-links a{font-size:13px;color:rgba(240,237,232,.5);text-decoration:none;cursor:pointer}
+.nav-links a:hover{color:#f0ede8}
+.pill-btn{background:#f0ede8;color:#0a0a0a;border:none;border-radius:20px;padding:7px 18px;font-size:13px;font-weight:500;cursor:pointer}
+.pill-btn:hover{opacity:.88}
+.pill-btn.ghost{background:transparent;color:#f0ede8;border:0.5px solid rgba(240,237,232,.3)}
+.pill-btn.ghost:hover{background:rgba(255,255,255,.06)}
+.hero{padding:52px 28px 36px;border-bottom:0.5px solid rgba(255,255,255,.08)}
+.hero-eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5DCAA5;margin-bottom:14px;font-weight:500}
+.hero h1{font-size:36px;font-weight:500;line-height:1.15;color:#f0ede8;max-width:560px;margin-bottom:12px}
+.hero h1 em{font-style:normal;color:#9FE1CB}
+.hero-sub{font-size:14px;color:rgba(240,237,232,.5);max-width:400px;line-height:1.6;margin-bottom:28px}
+.hero-actions{display:flex;gap:10px;align-items:center}
+.trust-strip{display:flex;gap:24px;margin-top:28px;padding-top:24px;border-top:0.5px solid rgba(255,255,255,.08)}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(240,237,232,.45)}
+.trust-dot{width:5px;height:5px;border-radius:50%;background:#5DCAA5;flex-shrink:0}
+.section{padding:32px 28px;border-bottom:0.5px solid rgba(255,255,255,.08)}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px}
+.section-title{font-size:13px;font-weight:500;color:rgba(240,237,232,.4);letter-spacing:.06em;text-transform:uppercase}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field-dark{display:flex;flex-direction:column;gap:5px}
+.field-dark label{font-size:11px;color:rgba(240,237,232,.4);letter-spacing:.04em;text-transform:uppercase}
+.field-dark input,.field-dark select{background:rgba(255,255,255,.05);border:0.5px solid rgba(255,255,255,.12);border-radius:8px;padding:9px 12px;font-size:13px;color:#f0ede8;outline:none;font-family:var(--font-sans)}
+.field-dark input::placeholder{color:rgba(240,237,232,.25)}
+.field-dark input:focus,.field-dark select:focus{border-color:rgba(95,202,165,.5);background:rgba(95,202,165,.04)}
+.field-dark select option{background:#1a1a1a;color:#f0ede8}
+.run-btn{width:100%;padding:13px;background:#5DCAA5;color:#04342C;border:none;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px;font-family:var(--font-sans)}
+.run-btn:hover{opacity:.88}
+.result-hidden{display:none}
+.score-section{padding:32px 28px 0}
+.decision-banner{border-radius:12px;padding:20px 24px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.db-approve{background:rgba(29,158,117,.12);border:0.5px solid rgba(29,158,117,.3)}
+.db-conditions{background:rgba(186,117,23,.1);border:0.5px solid rgba(186,117,23,.3)}
+.db-review{background:rgba(55,138,221,.1);border:0.5px solid rgba(55,138,221,.25)}
+.db-deny{background:rgba(226,75,74,.1);border:0.5px solid rgba(226,75,74,.25)}
+.db-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.db-approve .db-label{color:#5DCAA5}
+.db-conditions .db-label{color:#EF9F27}
+.db-review .db-label{color:#85B7EB}
+.db-deny .db-label{color:#F09595}
+.db-title{font-size:20px;font-weight:500;color:#f0ede8}
+.db-score{font-size:28px;font-weight:500}
+.db-approve .db-score{color:#5DCAA5}
+.db-conditions .db-score{color:#EF9F27}
+.db-review .db-score{color:#85B7EB}
+.db-deny .db-score{color:#F09595}
+.terms-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.term-tile{background:rgba(255,255,255,.04);border:0.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px}
+.term-tile-label{font-size:11px;color:rgba(240,237,232,.35);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.term-tile-val{font-size:15px;font-weight:500;color:#f0ede8}
+.breakdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.score-row-d{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:0.5px solid rgba(255,255,255,.06);font-size:13px;color:rgba(240,237,232,.65)}
+.score-row-d:last-child{border-bottom:none}
+.score-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.sp-pos{background:rgba(29,158,117,.15);color:#5DCAA5}
+.sp-neg{background:rgba(226,75,74,.15);color:#F09595}
+.sp-zero{background:rgba(255,255,255,.07);color:rgba(240,237,232,.45)}
+.sp-miss{background:rgba(255,255,255,.06);color:rgba(240,237,232,.3)}
+.total-line{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-top:0.5px solid rgba(255,255,255,.15);font-size:14px;font-weight:500;color:#f0ede8}
+.memo-wrap{padding:28px;border-top:0.5px solid rgba(255,255,255,.08)}
+.memo-label{font-size:11px;color:rgba(240,237,232,.3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+.memo-body{background:rgba(255,255,255,.03);border:0.5px solid rgba(255,255,255,.08);border-radius:10px;padding:16px;font-size:13px;line-height:1.7;color:rgba(240,237,232,.7);white-space:pre-wrap;max-height:220px;overflow-y:auto}
+.flags-wrap{padding:0 28px 28px}
+.flag-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:rgba(240,237,232,.4);margin-bottom:6px;line-height:1.5}
+.flag-pip{width:4px;height:4px;border-radius:50%;margin-top:5px;flex-shrink:0}
+</style>
+
+<div class="wrap">
+  <nav class="nav">
+    <div class="logo">credit<span>IQ</span></div>
+    <div class="nav-links">
+      <a>Dashboard</a>
+      <a>Applications</a>
+      <a>Reports</a>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="pill-btn ghost" style="padding:7px 16px">Sign in</button>
+      <button class="pill-btn">New application</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Credit rating engine</div>
+    <h1>Intelligent credit decisions, <em>in seconds</em></h1>
+    <p class="hero-sub">Enter applicant financials and trade data to receive a scored credit recommendation, approved terms, and a full management memo.</p>
+    <div class="hero-actions">
+      <button class="pill-btn" onclick="document.getElementById('form-anchor').scrollIntoView({behavior:'smooth'})">Start assessment</button>
+      <button class="pill-btn ghost">View sample report</button>
+    </div>
+    <div class="trust-strip">
+      <div class="trust-item"><div class="trust-dot"></div>6-factor scoring model</div>
+      <div class="trust-item"><div class="trust-dot"></div>Edge case overrides</div>
+      <div class="trust-item"><div class="trust-dot"></div>Auto-generated memo</div>
+      <div class="trust-item"><div class="trust-dot"></div>Missing data handling</div>
+    </div>
+  </div>
+
+  <div id="form-anchor" class="section">
+    <div class="section-head"><span class="section-title">Applicant data</span></div>
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="field-dark"><label>Company name</label><input id="compname" placeholder="e.g. Acme Distributors LLC"></div>
+      <div class="field-dark"><label>Years in business</label><input id="years" type="number" placeholder="e.g. 7"></div>
+    </div>
+    <div class="section-head" style="margin-top:20px"><span class="section-title">Payment history</span></div>
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="field-dark"><label>On-time rate (%)</label><input id="ontime" type="number" min="0" max="100" placeholder="e.g. 94"></div>
+      <div class="field-dark"><label>Disputes / write-offs</label>
+        <select id="disputes"><option value="none">None</option><option value="minor">Minor disputes</option><option value="pattern">Pattern / write-offs</option></select>
+      </div>
+    </div>
+    <div class="section-head" style="margin-top:20px"><span class="section-title">Financials</span></div>
+    <div class="form-grid3" style="margin-bottom:12px">
+      <div class="field-dark"><label>Current assets ($)</label><input id="assets" type="number" placeholder="500,000"></div>
+      <div class="field-dark"><label>Current liabilities ($)</label><input id="liabilities" type="number" placeholder="300,000"></div>
+      <div class="field-dark"><label>Annual revenue ($)</label><input id="revenue" type="number" placeholder="2,000,000"></div>
+    </div>
+    <div class="form-grid3" style="margin-bottom:12px">
+      <div class="field-dark"><label>Net income ($)</label><input id="netincome" type="number" placeholder="optional"></div>
+      <div class="field-dark"><label>YoY growth (%)</label><input id="growth" type="number" placeholder="optional"></div>
+      <div class="field-dark"><label>Requested credit ($)</label><input id="credit" type="number" placeholder="100,000"></div>
+    </div>
+    <div class="section-head" style="margin-top:20px"><span class="section-title">Industry & references</span></div>
+    <div class="form-grid" style="margin-bottom:20px">
+      <div class="field-dark"><label>Industry</label>
+        <select id="industry">
+          <option value="">— select —</option>
+          <option value="stable">Stable (food, utilities, healthcare)</option>
+          <option value="moderate">Moderate / cyclical (retail, construction)</option>
+          <option value="high">High volatility (crypto, early-stage tech)</option>
+          <option value="unknown">Unknown / unclassified</option>
+        </select>
+      </div>
+      <div class="field-dark"><label>Trade references</label>
+        <select id="refquality">
+          <option value="none">None provided</option>
+          <option value="2pos">2 or more positive</option>
+          <option value="1pos">1 positive</option>
+          <option value="negative">Negative reference(s)</option>
+        </select>
+      </div>
+    </div>
+    <button class="run-btn" onclick="calculate()">Run credit assessment</button>
+  </div>
+
+  <div id="results" class="result-hidden">
+    <div class="score-section">
+      <div id="decision-banner"></div>
+      <div class="terms-row" id="terms-row"></div>
+      <div style="background:rgba(255,255,255,.03);border:0.5px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden;margin-bottom:16px">
+        <div style="padding:10px 14px 2px;font-size:11px;color:rgba(240,237,232,.3);text-transform:uppercase;letter-spacing:.07em">Score breakdown</div>
+        <div id="breakdown"></div>
+        <div class="total-line"><span>Total score</span><span id="total-disp"></span></div>
+      </div>
+    </div>
+    <div class="flags-wrap" id="flags-wrap"></div>
+    <div class="memo-wrap">
+      <div class="memo-label">Management memo</div>
+      <div class="memo-body" id="memo"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function gv(id){return document.getElementById(id).value.trim()}
+function gn(id){const v=parseFloat(document.getElementById(id).value);return isNaN(v)?null:v}
+
+function calculate(){
+  const ontime=gn('ontime'),disputes=gv('disputes'),assets=gn('assets'),liabilities=gn('liabilities');
+  const revenue=gn('revenue'),growth=gn('growth'),years=gn('years');
+  const credit=gn('credit'),industry=gv('industry'),refquality=gv('refquality');
+  const compname=gv('compname')||'The applicant';
+
+  let score=0,breakdown=[],flags=[],overrides=[],missing=[];
+  const hasPayment=ontime!==null;
+  const hasFinancials=assets!==null&&liabilities!==null;
+  const hasRevenue=revenue!==null;
+  let currentRatio=null,orderPct=null;
+  if(hasFinancials&&liabilities>0) currentRatio=assets/liabilities;
+  if(hasRevenue&&credit!==null&&revenue>0) orderPct=(credit/revenue)*100;
+
+  let payScore=0,finScore=0,yearsScore=0,orderScore=0,indScore=0,refScore=0;
+
+  if(hasPayment){
+    if(ontime>=95&&disputes==='none') payScore=2;
+    else if(ontime>=80||disputes==='minor') payScore=0;
+    else payScore=-3;
+    breakdown.push({label:'Payment history',score:payScore});
+    score+=payScore;
+  } else {
+    missing.push('No payment history — credit line reduced 50%, flagged for 90-day re-evaluation');
+    breakdown.push({label:'Payment history',score:null,note:'missing'});
+  }
+
+  if(hasFinancials){
+    if(currentRatio>1.5) finScore=2;
+    else if(currentRatio>=1.0) finScore=0;
+    else finScore=-3;
+    breakdown.push({label:'Financial health (ratio '+currentRatio.toFixed(2)+')',score:finScore});
+    score+=finScore;
+  } else {
+    if(refquality==='2pos') missing.push('No financials — review allowed due to strong references');
+    else missing.push('No financial statements — deny or require prepayment');
+    breakdown.push({label:'Financial health',score:null,note:'missing'});
+  }
+
+  if(years!==null){
+    if(years>=5) yearsScore=1;
+    else if(years>=1) yearsScore=0;
+    else yearsScore=-2;
+    breakdown.push({label:'Years in business ('+years+')',score:yearsScore});
+    score+=yearsScore;
+  } else {
+    breakdown.push({label:'Years in business',score:0,note:'assumed 0'});
+  }
+
+  if(hasRevenue&&orderPct!==null){
+    if(orderPct<=5) orderScore=1;
+    else if(orderPct<=10) orderScore=0;
+    else if(orderPct<=20) orderScore=-2;
+    else orderScore=-4;
+    breakdown.push({label:'Order size ('+orderPct.toFixed(1)+'% of revenue)',score:orderScore});
+    score+=orderScore;
+  } else if(!hasRevenue&&credit!==null){
+    orderScore=-4;
+    missing.push('No revenue data — order size defaulted to worst-case bucket');
+    breakdown.push({label:'Order size (no revenue)',score:-4});
+    score+=-4;
+  } else {
+    breakdown.push({label:'Order size',score:null,note:'missing'});
+  }
+
+  if(industry==='stable') indScore=1;
+  else if(industry==='moderate') indScore=0;
+  else if(industry==='high') indScore=-2;
+  else {flags.push({col:'#EF9F27',text:'Industry unknown — neutral assigned, flagged for classification'});indScore=0;}
+  breakdown.push({label:'Industry risk',score:indScore});
+  score+=indScore;
+
+  if(refquality==='2pos') refScore=2;
+  else if(refquality==='1pos') refScore=0;
+  else if(refquality==='negative') refScore=-3;
+  else {flags.push({col:'#EF9F27',text:'No trade references — credit line reduced 25%, flagged for monitoring'});refScore=0;}
+  if(refquality!=='none'){breakdown.push({label:'Trade references',score:refScore});score+=refScore;}
+  else breakdown.push({label:'Trade references',score:null,note:'none'});
+
+  let overrideApplied=false;
+  if(growth!==null&&growth>50&&refquality==='2pos'){
+    overrides.push('Override: high-growth startup ('+Math.round(growth)+'% YoY) + strong references — upgraded one level');
+    score+=1;overrideApplied=true;
+  }
+  if(hasFinancials&&currentRatio<1.0&&hasPayment&&ontime>=95&&years>=10){
+    overrides.push('Override: strong history + 10+ yr tenure — temporary liquidity dip, conditional approval allowed');
+    score+=2;overrideApplied=true;
+  }
+  if(hasRevenue&&orderPct!==null&&orderPct>20&&hasPayment&&ontime>=95){
+    overrides.push('Concentration risk: order >20% of revenue — credit capped at 10% of annual revenue');
+    flags.push({col:'#F09595',text:'Credit cap applied: max line = 10% of annual revenue'});
+  }
+
+  let creditLine=credit||0;
+  if(!hasPayment) creditLine=Math.round(creditLine*0.5);
+  if(refquality==='none') creditLine=Math.round(creditLine*0.75);
+  if(hasRevenue&&orderPct!==null&&orderPct>20&&hasPayment&&ontime>=95) creditLine=Math.min(creditLine,Math.round(revenue*0.10));
+
+  let decision,dClass,payTerms;
+  if(!hasFinancials&&refquality!=='2pos'){decision='Deny / prepayment required';dClass='db-deny';payTerms='Prepayment';}
+  else if(score>=5){decision='Approved';dClass='db-approve';payTerms='Net 30';}
+  else if(score>=2){decision='Approved with conditions';dClass='db-conditions';creditLine=Math.round(creditLine*0.75);payTerms='Net 15';}
+  else if(score>=-1){decision='Review required';dClass='db-review';payTerms='Pending review';}
+  else{decision='Deny / prepayment required';dClass='db-deny';payTerms='Prepayment';}
+  if(!hasPayment){decision='Review required';dClass='db-review';}
+
+  const sign=score>=0?'+':'';
+  document.getElementById('decision-banner').innerHTML=`
+    <div class="decision-banner ${dClass}">
+      <div><div class="db-label">${score>=5?'Decision':'Assessment'}</div><div class="db-title">${decision}</div></div>
+      <div class="db-score">${sign}${score}</div>
+    </div>`;
+
+  const lineStr=creditLine>0?'$'+creditLine.toLocaleString():'—';
+  document.getElementById('terms-row').innerHTML=`
+    <div class="term-tile"><div class="term-tile-label">Credit line</div><div class="term-tile-val">${lineStr}</div></div>
+    <div class="term-tile"><div class="term-tile-label">Payment terms</div><div class="term-tile-val">${payTerms}</div></div>
+    <div class="term-tile"><div class="term-tile-label">Raw score</div><div class="term-tile-val">${sign}${score}</div></div>`;
+
+  let bhtml='';
+  breakdown.forEach(b=>{
+    let pill='';
+    if(b.note==='missing'||b.note==='none'||b.note==='assumed 0') pill=`<span class="score-pill sp-miss">${b.note||'—'}</span>`;
+    else if(b.score===null) pill=`<span class="score-pill sp-miss">n/a</span>`;
+    else if(b.score>0) pill=`<span class="score-pill sp-pos">+${b.score}</span>`;
+    else if(b.score<0) pill=`<span class="score-pill sp-neg">${b.score}</span>`;
+    else pill=`<span class="score-pill sp-zero">0</span>`;
+    bhtml+=`<div class="score-row-d"><span>${b.label}</span>${pill}</div>`;
+  });
+  if(overrideApplied) bhtml+=`<div class="score-row-d" style="font-style:italic"><span>Override applied</span><span class="score-pill" style="background:rgba(55,138,221,.12);color:#85B7EB">adj</span></div>`;
+  document.getElementById('breakdown').innerHTML=bhtml;
+  document.getElementById('total-disp').innerHTML=`<span style="font-size:16px">${sign}${score}</span>`;
+
+  let fhtml='';
+  flags.forEach(f=>{fhtml+=`<div class="flag-item"><div class="flag-pip" style="background:${f.col}"></div><span>${f.text}</span></div>`;});
+  missing.forEach(m=>{fhtml+=`<div class="flag-item"><div class="flag-pip" style="background:#F09595"></div><span>${m}</span></div>`;});
+  overrides.forEach(o=>{fhtml+=`<div class="flag-item"><div class="flag-pip" style="background:#85B7EB"></div><span>${o}</span></div>`;});
+  document.getElementById('flags-wrap').innerHTML=fhtml?`<div style="font-size:11px;color:rgba(240,237,232,.3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Flags & adjustments</div>${fhtml}`:'';
+
+  const strengths=[],risks=[];
+  if(hasPayment&&ontime>=95) strengths.push('strong payment history ('+ontime+'% on-time)');
+  if(refquality==='2pos') strengths.push('two or more positive trade references');
+  if(years>=5) strengths.push(years+' years in business');
+  if(hasFinancials&&currentRatio>1.5) strengths.push('healthy current ratio of '+currentRatio.toFixed(2));
+  if(growth!==null&&growth>50) strengths.push('high revenue growth ('+Math.round(growth)+'% YoY)');
+  if(hasPayment&&ontime<80) risks.push('payment history below threshold ('+ontime+'% on-time)');
+  if(hasFinancials&&currentRatio<1.0) risks.push('current ratio below 1.0 ('+currentRatio.toFixed(2)+')');
+  if(orderPct!==null&&orderPct>15) risks.push('high order concentration ('+orderPct.toFixed(1)+'% of revenue)');
+  if(industry==='high') risks.push('high-volatility industry');
+  if(refquality==='negative') risks.push('negative trade reference on file');
+  if(!hasPayment) risks.push('no payment history on file');
+  if(!hasFinancials) risks.push('no financial statements provided');
+
+  const memo=`${compname} — credit assessment
+Decision: ${decision}  |  Score: ${sign}${score}  |  Line: ${lineStr}  |  Terms: ${payTerms}
+
+Strengths: ${strengths.length?strengths.join(', '):'none identified'}.
+
+Risks: ${risks.length?risks.join(', '):'none identified'}.
+${missing.length?'\nMissing data:\n'+missing.map(m=>'  — '+m).join('\n'):''}${overrides.length?'\nOverrides:\n'+overrides.map(o=>'  — '+o).join('\n'):''}
+
+Rationale: ${compname} scored ${sign}${score} across six credit factors. ${decision==='Approved'?'The applicant meets standard criteria for credit extension on Net 30 terms.':decision==='Approved with conditions'?'Credit is extended at a reduced line with shorter payment terms pending improved indicators.':decision==='Review required'?'The application falls within the manual review band. A credit manager should assess prior to final decision.':'The application does not meet minimum credit criteria. Prepayment or denial is recommended.'} Standard monitoring protocols apply.`;
+
+  document.getElementById('memo').textContent=memo;
+  document.getElementById('results').classList.remove('result-hidden');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+</script>
