@@ -1,0 +1,328 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:1rem 0;font-size:14px}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem}
+.panel-full{grid-column:1/-1}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;color:var(--color-text-secondary);margin-bottom:4px}
+.field input,.field select{width:100%;font-size:13px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.calc-btn{width:100%;padding:10px;font-size:14px;font-weight:500;background:var(--color-background-info);color:var(--color-text-info);border:1px solid var(--color-border-info);border-radius:var(--border-radius-md);cursor:pointer;margin-top:4px}
+.calc-btn:hover{opacity:.85}
+.score-bar-wrap{height:8px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden;margin:6px 0}
+.score-bar{height:100%;border-radius:4px;transition:width .4s}
+.score-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.score-row:last-child{border-bottom:none}
+.badge{display:inline-block;padding:2px 8px;border-radius:var(--border-radius-md);font-size:11px;font-weight:500}
+.b-green{background:#EAF3DE;color:#27500A}
+.b-red{background:#FCEBEB;color:#791F1F}
+.b-amber{background:#FAEEDA;color:#633806}
+.b-blue{background:#E6F1FB;color:#0C447C}
+.b-gray{background:#F1EFE8;color:#444441}
+.decision-box{border-radius:var(--border-radius-lg);padding:1.25rem;text-align:center;border:2px solid}
+.d-approve{background:#EAF3DE;border-color:#3B6D11;color:#173404}
+.d-conditions{background:#FAEEDA;border-color:#854F0B;color:#412402}
+.d-review{background:#E6F1FB;border-color:#185FA5;color:#042C53}
+.d-deny{background:#FCEBEB;border-color:#A32D2D;color:#501313}
+.d-title{font-size:18px;font-weight:500;margin-bottom:4px}
+.d-sub{font-size:12px;opacity:.8}
+.terms-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.term-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px}
+.term-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px}
+.term-val{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.memo-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;font-size:13px;line-height:1.6;color:var(--color-text-primary);white-space:pre-wrap;max-height:260px;overflow-y:auto}
+.flag-list{margin-top:8px}
+.flag{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.flag-dot{width:6px;height:6px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.hidden{display:none}
+.total-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0 2px;font-weight:500;font-size:14px;border-top:1px solid var(--color-border-secondary);margin-top:4px}
+</style>
+
+<h2 class="sr-only">Credit rating application — enter company data to receive a credit decision, score breakdown, and management memo</h2>
+
+<div class="app">
+
+<div class="panel">
+  <div class="section-label">Payment history</div>
+  <div class="field-row">
+    <div class="field"><label>On-time rate (%)</label><input type="number" id="ontime" min="0" max="100" placeholder="e.g. 92"></div>
+    <div class="field"><label>Disputes / write-offs</label><select id="disputes"><option value="none">None</option><option value="minor">Minor</option><option value="pattern">Pattern / write-offs</option></select></div>
+  </div>
+  <div class="section-label" style="margin-top:8px">Financial health</div>
+  <div class="field-row">
+    <div class="field"><label>Current assets ($)</label><input type="number" id="assets" placeholder="e.g. 500000"></div>
+    <div class="field"><label>Current liabilities ($)</label><input type="number" id="liabilities" placeholder="e.g. 300000"></div>
+  </div>
+  <div class="field-row">
+    <div class="field"><label>Annual revenue ($)</label><input type="number" id="revenue" placeholder="e.g. 2000000"></div>
+    <div class="field"><label>Net income ($)</label><input type="number" id="netincome" placeholder="e.g. 150000"></div>
+  </div>
+  <div class="field"><label>YoY revenue growth (%) — optional</label><input type="number" id="growth" placeholder="e.g. 60 for high-growth startup"></div>
+</div>
+
+<div class="panel">
+  <div class="section-label">Company profile</div>
+  <div class="field-row">
+    <div class="field"><label>Years in business</label><input type="number" id="years" min="0" placeholder="e.g. 7"></div>
+    <div class="field"><label>Requested credit ($)</label><input type="number" id="credit" placeholder="e.g. 100000"></div>
+  </div>
+  <div class="field"><label>Industry</label>
+    <select id="industry">
+      <option value="">— select —</option>
+      <option value="stable">Stable (food, utilities, healthcare, manufacturing)</option>
+      <option value="moderate">Moderate / cyclical (retail, construction, logistics)</option>
+      <option value="high">High volatility (crypto, early-stage tech, oil & gas)</option>
+      <option value="unknown">Unknown / unclassified</option>
+    </select>
+  </div>
+  <div class="section-label" style="margin-top:8px">Trade references</div>
+  <div class="field-row">
+    <div class="field"><label>Number of references</label><input type="number" id="refcount" min="0" placeholder="e.g. 2"></div>
+    <div class="field"><label>Overall quality</label>
+      <select id="refquality">
+        <option value="none">None provided</option>
+        <option value="2pos">2 or more positive</option>
+        <option value="1pos">1 positive</option>
+        <option value="negative">Negative reference(s)</option>
+      </select>
+    </div>
+  </div>
+  <div class="field"><label>Company name (for memo)</label><input type="text" id="compname" placeholder="e.g. Acme Distributors LLC"></div>
+  <button class="calc-btn" onclick="calculate()">Calculate credit rating ↗</button>
+</div>
+
+<div class="panel panel-full hidden" id="results-panel">
+  <div class="section-label">Results</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:14px;align-items:start">
+
+    <div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">Score breakdown</div>
+      <div id="breakdown"></div>
+      <div class="total-row"><span>Total score</span><span id="total-score-disp"></span></div>
+    </div>
+
+    <div>
+      <div id="decision-box"></div>
+      <div class="terms-grid" id="terms-grid"></div>
+      <div class="flag-list" id="flags"></div>
+    </div>
+
+    <div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">Management memo</div>
+      <div class="memo-box" id="memo"></div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<script>
+function v(id){return document.getElementById(id).value.trim()}
+function n(id){const val=parseFloat(document.getElementById(id).value);return isNaN(val)?null:val}
+
+function calculate(){
+  const ontime=n('ontime'),disputes=v('disputes'),assets=n('assets'),liabilities=n('liabilities');
+  const revenue=n('revenue'),netincome=n('netincome'),growth=n('growth'),years=n('years');
+  const credit=n('credit'),industry=v('industry'),refcount=n('refcount'),refquality=v('refquality');
+  const compname=v('compname')||'The applicant';
+
+  let score=0, breakdown=[], flags=[], overrides=[], missing=[];
+
+  const hasPayment=ontime!==null;
+  const hasFinancials=assets!==null&&liabilities!==null;
+  const hasRevenue=revenue!==null;
+  const hasRefs=refquality!=='none';
+
+  let payScore=0,finScore=0,yearsScore=0,orderScore=0,indScore=0,refScore=0;
+  let currentRatio=null, orderPct=null;
+
+  if(hasFinancials&&liabilities>0) currentRatio=assets/liabilities;
+  if(hasRevenue&&credit!==null&&revenue>0) orderPct=(credit/revenue)*100;
+
+  if(hasPayment){
+    if(ontime>=95&&disputes==='none'){payScore=2;}
+    else if(ontime>=80||disputes==='minor'){payScore=0;}
+    else{payScore=-3;}
+    breakdown.push({label:'Payment history',score:payScore});
+    score+=payScore;
+  } else {
+    missing.push('No payment history — credit line reduced 50%, flagged for 90-day re-evaluation');
+    breakdown.push({label:'Payment history',score:null,note:'missing'});
+  }
+
+  if(hasFinancials){
+    if(currentRatio>1.5){finScore=2;}
+    else if(currentRatio>=1.0){finScore=0;}
+    else{finScore=-3;}
+    breakdown.push({label:'Financial health (ratio: '+(currentRatio).toFixed(2)+')',score:finScore});
+    score+=finScore;
+  } else {
+    if(refquality==='2pos'){missing.push('No financials — allowed to review due to strong references');}
+    else{missing.push('No financial statements — deny or require prepayment unless references are strong');}
+    breakdown.push({label:'Financial health',score:null,note:'missing'});
+  }
+
+  if(years!==null){
+    if(years>=5){yearsScore=1;}
+    else if(years>=1){yearsScore=0;}
+    else{yearsScore=-2;}
+    breakdown.push({label:'Years in business ('+years+')',score:yearsScore});
+    score+=yearsScore;
+  } else {
+    breakdown.push({label:'Years in business',score:0,note:'assumed 0'});
+  }
+
+  if(hasRevenue&&orderPct!==null){
+    if(orderPct<=5){orderScore=1;}
+    else if(orderPct<=10){orderScore=0;}
+    else if(orderPct<=20){orderScore=-2;}
+    else{orderScore=-4;}
+    breakdown.push({label:'Order size ('+orderPct.toFixed(1)+'% of revenue)',score:orderScore});
+    score+=orderScore;
+  } else if(!hasRevenue&&credit!==null){
+    orderScore=-4;
+    missing.push('No revenue data — order size risk defaulted to worst-case bucket');
+    breakdown.push({label:'Order size (no revenue)',score:-4});
+    score+=-4;
+  } else {
+    breakdown.push({label:'Order size',score:null,note:'missing'});
+  }
+
+  if(industry==='stable'){indScore=1;}
+  else if(industry==='moderate'){indScore=0;}
+  else if(industry==='high'){indScore=-2;}
+  else{indScore=0;flags.push({color:'#FAEEDA',text:'Industry unknown — assigned neutral; flag for manual classification'});}
+  breakdown.push({label:'Industry risk',score:indScore});
+  score+=indScore;
+
+  if(refquality==='2pos'){refScore=2;}
+  else if(refquality==='1pos'){refScore=0;}
+  else if(refquality==='negative'){refScore=-3;}
+  else{refScore=0;flags.push({color:'#FAEEDA',text:'No references — credit line reduced 25%; flagged for monitoring'});}
+  if(refquality!=='none') {
+    breakdown.push({label:'Trade references',score:refScore});
+    score+=refScore;
+  } else {
+    breakdown.push({label:'Trade references',score:null,note:'none'});
+  }
+
+  let overrideApplied=false;
+  if(growth!==null&&growth>50&&refquality==='2pos'){
+    overrides.push('Override: high-growth startup ('+growth+'% YoY) with strong references — upgraded one level');
+    score+=1;overrideApplied=true;
+  }
+  if(hasFinancials&&currentRatio<1.0&&hasPayment&&ontime>=95&&years>=10){
+    overrides.push('Override: strong payment history + 10+ years tenure — temporary liquidity dip, conditional approval allowed');
+    score+=2;overrideApplied=true;
+  }
+  if(hasRevenue&&orderPct!==null&&orderPct>20&&hasPayment&&ontime>=95){
+    overrides.push('Concentration risk: order >20% of revenue — credit capped at 10% of revenue regardless of score');
+    flags.push({color:'#FCEBEB',text:'Credit cap applied: max line = 10% of annual revenue'});
+  }
+
+  let decision,dClass,terms,creditLine,payTerms;
+  const baseLine=credit||0;
+
+  if(!hasPayment){
+    creditLine=Math.round(baseLine*0.5);
+    if(!decision) decision='REVIEW REQUIRED';
+  } else {
+    creditLine=baseLine;
+  }
+  if(refquality==='none') creditLine=Math.round(creditLine*0.75);
+
+  if(hasRevenue&&orderPct!==null&&orderPct>20&&hasPayment&&ontime>=95){
+    creditLine=Math.min(creditLine,Math.round(revenue*0.10));
+  }
+
+  if(!hasFinancials&&refquality!=='2pos'){
+    decision='DENY / PREPAYMENT REQUIRED'; dClass='d-deny'; payTerms='Prepayment';
+  } else if(score>=5){
+    decision='APPROVED'; dClass='d-approve'; payTerms='Net 30';
+  } else if(score>=2){
+    decision='APPROVED WITH CONDITIONS'; dClass='d-conditions'; creditLine=Math.round(creditLine*0.75); payTerms='Net 15';
+  } else if(score>=-1){
+    decision='REVIEW REQUIRED'; dClass='d-review'; payTerms='Pending review';
+  } else {
+    decision='DENY / PREPAYMENT REQUIRED'; dClass='d-deny'; payTerms='Prepayment';
+  }
+
+  if(!hasPayment) decision='REVIEW REQUIRED', dClass='d-review';
+
+  const maxScore=9,minScore=-17;
+  const normalized=Math.max(0,Math.min(100,((score-minScore)/(maxScore-minScore))*100));
+  let barColor=dClass==='d-approve'?'#639922':dClass==='d-conditions'?'#BA7517':dClass==='d-review'?'#378ADD':'#E24B4A';
+
+  let bhtml='';
+  breakdown.forEach(b=>{
+    let badge='';
+    if(b.note==='missing') badge='<span class="badge b-gray">missing</span>';
+    else if(b.score===null) badge='<span class="badge b-gray">n/a</span>';
+    else if(b.score>0) badge='<span class="badge b-green">+'+b.score+'</span>';
+    else if(b.score<0) badge='<span class="badge b-red">'+b.score+'</span>';
+    else badge='<span class="badge b-gray">0</span>';
+    bhtml+=`<div class="score-row"><span style="color:var(--color-text-secondary)">${b.label}</span>${badge}</div>`;
+  });
+  if(overrideApplied) bhtml+=`<div class="score-row"><span style="color:var(--color-text-secondary);font-style:italic">Override applied</span><span class="badge b-blue">adj</span></div>`;
+  document.getElementById('breakdown').innerHTML=bhtml;
+
+  const scoreSign=score>0?'+':'';
+  document.getElementById('total-score-disp').innerHTML=`<span style="font-size:16px">${scoreSign}${score}</span>`;
+
+  const scoreBarColor = barColor;
+  document.getElementById('decision-box').innerHTML=`
+    <div class="decision-box ${dClass}">
+      <div class="score-bar-wrap"><div class="score-bar" style="width:${normalized}%;background:${scoreBarColor}"></div></div>
+      <div class="d-title">${decision}</div>
+      <div class="d-sub">Raw score: ${scoreSign}${score}</div>
+    </div>`;
+
+  const lineStr=creditLine>0?'$'+creditLine.toLocaleString():'—';
+  document.getElementById('terms-grid').innerHTML=`
+    <div class="term-card"><div class="term-label">Credit line</div><div class="term-val">${lineStr}</div></div>
+    <div class="term-card"><div class="term-label">Payment terms</div><div class="term-val">${payTerms}</div></div>
+    <div class="term-card"><div class="term-label">Score</div><div class="term-val">${scoreSign}${score}</div></div>`;
+
+  let flagHtml='';
+  flags.forEach(f=>{flagHtml+=`<div class="flag"><div class="flag-dot" style="background:${f.color}"></div><span>${f.text}</span></div>`;});
+  missing.forEach(m=>{flagHtml+=`<div class="flag"><div class="flag-dot" style="background:#F09595"></div><span>${m}</span></div>`;});
+  overrides.forEach(o=>{flagHtml+=`<div class="flag"><div class="flag-dot" style="background:#85B7EB"></div><span>${o}</span></div>`;});
+  document.getElementById('flags').innerHTML=flagHtml;
+
+  const strengths=[],risks=[];
+  if(hasPayment&&ontime>=95) strengths.push('strong payment history ('+ontime+'% on-time)');
+  if(refquality==='2pos') strengths.push('two or more positive trade references');
+  if(years>=5) strengths.push(years+' years in business');
+  if(hasFinancials&&currentRatio>1.5) strengths.push('healthy current ratio of '+currentRatio.toFixed(2));
+  if(growth!==null&&growth>50) strengths.push('high revenue growth ('+growth+'% YoY)');
+  if(hasPayment&&ontime<80) risks.push('payment history below threshold ('+ontime+'% on-time)');
+  if(hasFinancials&&currentRatio<1.0) risks.push('current ratio below 1.0 ('+currentRatio.toFixed(2)+') — liquidity concern');
+  if(orderPct!==null&&orderPct>15) risks.push('high order concentration ('+orderPct.toFixed(1)+'% of revenue)');
+  if(industry==='high') risks.push('high-volatility industry classification');
+  if(refquality==='negative') risks.push('negative trade reference(s) on file');
+  if(!hasPayment) risks.push('no payment history on file');
+  if(!hasFinancials) risks.push('no financial statements provided');
+
+  const strengthStr=strengths.length?strengths.join(', '):'no notable strengths identified';
+  const riskStr=risks.length?risks.join(', '):'no critical risks identified';
+  const missingStr=missing.length?'\n\nMissing data adjustments:\n- '+missing.join('\n- '):'';
+  const overrideStr=overrides.length?'\n\nOverrides applied:\n- '+overrides.join('\n- '):'';
+
+  const memo=`Company: ${compname}
+Decision: ${decision}
+Score: ${scoreSign}${score} | Credit line: ${lineStr} | Terms: ${payTerms}
+
+Key strengths: ${strengthStr}.
+
+Key risks: ${riskStr}.${missingStr}${overrideStr}
+
+Rationale: Based on the scoring model, ${compname} received a raw score of ${score}. ${decision==='APPROVED'?'The applicant meets standard criteria for credit extension.':decision==='APPROVED WITH CONDITIONS'?'Credit is extended with a reduced line and shorter payment window pending improved indicators.':decision==='REVIEW REQUIRED'?'The application falls within the review band. A credit manager should assess before a final decision.':'The application does not meet minimum criteria. Prepayment or denial is recommended.'} Standard monitoring protocols apply.`;
+
+  document.getElementById('memo').textContent=memo;
+  document.getElementById('results-panel').classList.remove('hidden');
+}
+</script>
